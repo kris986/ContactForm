@@ -1,9 +1,6 @@
 import re
 
 from selenium.common.exceptions import NoSuchElementException
-from selenium.webdriver.common.keys import Keys
-from selenium.webdriver.support.wait import WebDriverWait
-from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.select import Select
 
 from .locators import ContactLocators
@@ -27,6 +24,7 @@ class ContactPage:
 
     def should_be_contact_page(self):
         self.should_be_contact_url()
+        self.should_contact_title_page()
         self.should_be_contact_header()
         self.should_be_contact_form_private()
 
@@ -56,7 +54,6 @@ class ContactPage:
         self.should_be_check_agreement_receive_email()
         self.should_be_check_agreement_trusted_partners()
         self.should_be_button_send()
-        # self.should_be_block_admntrtr_prsnl_dt()
 
     def should_be_contact_form_corporate(self):
         self.should_be_radio_type_of_client()
@@ -64,6 +61,7 @@ class ContactPage:
         self.should_be_name_surname_field()
         self.should_be_email_field()
         self.should_be_phone_field()
+        self.should_be_company_name_field()
         self.should_be_dropdown_topic()
         self.should_be_request_text_area()
         self.should_be_radio_delivery_answer()
@@ -92,7 +90,8 @@ class ContactPage:
         assert self.is_element_presents(*ContactLocators.INPUT_NAME_SURNAME), 'There is not input for Name & Surname'
 
     def should_be_dropdown_topic(self):
-        assert self.is_element_presents(*ContactLocators.SELECT_TOPIC), 'There is not drop down for topic choosing'
+        assert self.is_element_presents(
+            *ContactLocators.ITEMS_REQUEST_SUBJECTS), 'There is not drop down for topic choosing'
 
     def should_be_radio_delivery_answer(self):
         assert self.is_element_presents(
@@ -121,7 +120,6 @@ class ContactPage:
     def should_be_checked_radio_private_client(self):
         radio_private = self.browser.find_element(*ContactLocators.RADIO_PRIVATE_CLIENT)
         assert radio_private.is_selected(), 'There is not checked private client by default - is_selected'
-        # get_attribute('checked')
 
     def should_be_checked_radio_corporate_client(self):
         radio_corporate = self.browser.find_element(*ContactLocators.RADIO_BUSINESS_CLIENT)
@@ -137,7 +135,7 @@ class ContactPage:
         self.browser.find_element(*ContactLocators.INPUT_EMAIL).send_keys(email)
 
     def send_phone(self, phone):
-        self.browser.find_element(*ContactLocators.INPUT_EMAIL).send_keys(phone)
+        self.browser.find_element(*ContactLocators.INPUT_PHONE).send_keys(phone)
 
     def send_request_description(self, description):
         self.browser.find_element(*ContactLocators.TEXT_AREA_REQUEST).send_keys(description)
@@ -149,6 +147,11 @@ class ContactPage:
         self.browser.find_element(*ContactLocators.CHECKBOX_AGREEMENT_PROCESS_PERSONAL_DATA).click()
 
     def send_topic(self, topic):
-        topic_select = Select(self.browser.find_element(*ContactLocators.SELECT_TOPIC))
+        topic_select = Select(self.browser.find_element(*ContactLocators.SELECT_SUBJECT))
         topic_select.select_by_visible_text(topic)
 
+    def should_be_company_name_field(self):
+        assert self.is_element_presents(*ContactLocators.INPUT_COMPANY_NAME), 'There is not input for company name'
+
+    def should_contact_title_page(self):
+        assert self.browser.title == 'Kontakt - Bluemedia', 'Title page is not correct.'

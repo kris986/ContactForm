@@ -10,6 +10,7 @@ def browser():
     options.add_argument("--no-sandbox")
     options.add_argument("--disable-setuid-sandbox")
     browser = webdriver.Chrome(options=options)
-    browser.implicitly_wait(6)
+    browser.implicitly_wait(10)
+    browser.maximize_window()
     yield browser
     browser.quit()
