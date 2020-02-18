@@ -1,6 +1,7 @@
 import re
 
 from selenium.common.exceptions import NoSuchElementException
+from selenium.webdriver.common.by import By
 from selenium.webdriver.support.select import Select
 
 from .locators import ContactLocators
@@ -147,8 +148,12 @@ class ContactPage:
         self.browser.find_element(*ContactLocators.CHECKBOX_AGREEMENT_PROCESS_PERSONAL_DATA).click()
 
     def send_subject_request(self, subject):
-        topic_select = Select(self.browser.find_element(*ContactLocators.SELECT_SUBJECT))
-        topic_select.select_by_visible_text(subject)
+        assert self.is_element_presents(
+            By.XPATH,
+            f'//select[@id="subject"]//option[contains(text(),"{subject}")]'), \
+            f'There is not subject "{subject}" in drop down'
+        subjects_select = Select(self.browser.find_element(*ContactLocators.SELECT_SUBJECT))
+        subjects_select.select_by_visible_text(subject)
 
     def should_be_company_name_field(self):
         assert self.is_element_presents(*ContactLocators.INPUT_COMPANY_NAME), 'There is not input for company name'

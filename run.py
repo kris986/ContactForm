@@ -3,4 +3,4 @@
 import pytest
 
 if __name__ == '__main__':
-    pytest.main(['-x', '--tb=line', 'tests'])
+    pytest.main(['--tb=line', 'tests'])
