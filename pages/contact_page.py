@@ -47,7 +47,7 @@ class ContactPage:
         self.should_be_name_surname_field()
         self.should_be_email_field()
         self.should_be_phone_field()
-        self.should_be_dropdown_topic()
+        self.should_be_dropdown_subject_request()
         self.should_be_request_text_area()
         self.should_be_radio_delivery_answer()
         self.should_be_check_agreement_personal_data()
@@ -62,7 +62,7 @@ class ContactPage:
         self.should_be_email_field()
         self.should_be_phone_field()
         self.should_be_company_name_field()
-        self.should_be_dropdown_topic()
+        self.should_be_dropdown_subject_request()
         self.should_be_request_text_area()
         self.should_be_radio_delivery_answer()
         self.should_be_check_agreement_personal_data()
@@ -89,9 +89,9 @@ class ContactPage:
     def should_be_name_surname_field(self):
         assert self.is_element_presents(*ContactLocators.INPUT_NAME_SURNAME), 'There is not input for Name & Surname'
 
-    def should_be_dropdown_topic(self):
+    def should_be_dropdown_subject_request(self):
         assert self.is_element_presents(
-            *ContactLocators.ITEMS_REQUEST_SUBJECTS), 'There is not drop down for topic choosing'
+            *ContactLocators.ITEMS_REQUEST_SUBJECTS), 'There is not drop down for subject choosing'
 
     def should_be_radio_delivery_answer(self):
         assert self.is_element_presents(
@@ -119,11 +119,11 @@ class ContactPage:
 
     def should_be_checked_radio_private_client(self):
         radio_private = self.browser.find_element(*ContactLocators.RADIO_PRIVATE_CLIENT)
-        assert radio_private.is_selected(), 'There is not checked private client by default - is_selected'
+        assert radio_private.is_selected(), 'There is not checked private client by default'
 
     def should_be_checked_radio_corporate_client(self):
         radio_corporate = self.browser.find_element(*ContactLocators.RADIO_BUSINESS_CLIENT)
-        assert radio_corporate.is_selected(), 'There is not checked corporate client - is_selected'
+        assert radio_corporate.is_selected(), 'There is not checked corporate client'
 
     def switch_to_corporate_form(self):
         self.browser.find_element(*ContactLocators.RADIO_BUSINESS_CLIENT).click()
@@ -146,9 +146,9 @@ class ContactPage:
     def check_agreement_personal_data(self):
         self.browser.find_element(*ContactLocators.CHECKBOX_AGREEMENT_PROCESS_PERSONAL_DATA).click()
 
-    def send_topic(self, topic):
+    def send_subject_request(self, subject):
         topic_select = Select(self.browser.find_element(*ContactLocators.SELECT_SUBJECT))
-        topic_select.select_by_visible_text(topic)
+        topic_select.select_by_visible_text(subject)
 
     def should_be_company_name_field(self):
         assert self.is_element_presents(*ContactLocators.INPUT_COMPANY_NAME), 'There is not input for company name'
